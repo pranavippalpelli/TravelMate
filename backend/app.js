@@ -13,15 +13,15 @@ const reviewsRouter = require("./routes/reviews");
 const bookingsRouter = require("./routes/bookings");
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT ;
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 // MongoDB
-mongoose.connect(process.env.MONGO_URL || "mongodb://127.0.0.1:27017/TravelMate").then(() => console.log("✅ Connected to DB"));
+mongoose.connect(process.env.MONGO_URL).then(() => console.log("✅ Connected to DB"));
 
 // Routes
 app.use("/api/listings", listingsRouter);
