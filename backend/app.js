@@ -20,8 +20,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
-// MongoDB
-mongoose.connect(process.env.MONGO_URL).then(() => console.log("✅ Connected to DB"));
+// // MongoDB
+// mongoose.connect(process.env.MONGO_URL).then(() => console.log("✅ Connected to DB"));
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ Connected to MongoDB Atlas"))
+.catch(err => console.error("❌ MongoDB connection error:", err));
 
 // Routes
 app.use("/api/listings", listingsRouter);
