@@ -40,6 +40,7 @@
 // };
 
 // export default Login;
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/api";
@@ -55,8 +56,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post("/auth/login", form); // cookie will be set
-      await API.get("/auth/me"); // confirm login
+      await API.post("/auth/login", form);
+      await API.get("/auth/me"); // confirms cookie works
       navigate("/");
       window.location.reload();
     } catch (err) {

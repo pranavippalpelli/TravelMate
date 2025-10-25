@@ -86,7 +86,7 @@
 //   );
 // };
 
-// export default Navbar;
+
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../utils/api";
@@ -112,7 +112,6 @@ const Navbar = () => {
       await API.post("/auth/logout");
       setUser(null);
       navigate("/");
-      window.location.reload(); // refresh state
     } catch (err) {
       console.error(err);
     }
@@ -137,6 +136,7 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/">Home</Link>
             </li>
+
             {user && (
               <>
                 <li className="nav-item">

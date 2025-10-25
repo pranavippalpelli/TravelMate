@@ -43,6 +43,8 @@
 // };
 
 // export default Register;
+
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/api";
@@ -59,7 +61,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await API.post("/auth/register", form);
-      await API.get("/auth/me"); // cookie check
+      await API.get("/auth/me"); // verifies cookie
       navigate("/");
       window.location.reload();
     } catch (err) {
