@@ -83,6 +83,7 @@ app.use(cookieParser());
 // }));
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  "https://travel-mate-l7kbbviub-pranavs-projects-987c93eb.vercel.app/",
   "https://travel-mate-ivory.vercel.app/", // your deployed frontend
   "http://localhost:3000",            // local dev
 ];
