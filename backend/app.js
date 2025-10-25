@@ -52,31 +52,39 @@ const bookingsRouter = require("./routes/bookings");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ---------------------
 // Middleware
+// ---------------------
 app.use(express.json());
 app.use(cookieParser());
 
-// Allow multiple frontend URLs
+// ✅ Allow multiple frontend URLs dynamically
 const allowedOrigins = [
-  process.env.CLIENT_URL,             // e.g., your current Vercel frontend
-  "https://travel-mate-brudb8rao-pranavs-projects-987c93eb.vercel.app",
-  "https://travel-mate-csb872ma3-pranavs-projects-987c93eb.vercel.app",
-  "https://travel-mate-rc4u7gfhq-pranavs-projects-987c93eb.vercel.app",
-  "http://localhost:3000"            // for local development
+  process.env.CLIENT_URL,     // main production frontend
+  "http://localhost:3000"     // local dev
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow Postman/curl
-    if (allowedOrigins.indexOf(origin) === -1) {
-      return callback(new Error("CORS not allowed"), false);
-    }
-    return callback(null, true);
+  origin: function (origin, callback) {
+    // Allow Postman or curl (no origin)
+    if (!origin) return callback(null, true);
+
+    // ✅ Allow all vercel.app subdomains (any preview or prod build)
+    if (origin.endsWith(".vercel.app")) return callback(null, true);
+
+    // ✅ Allow whitelisted origins
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+
+    // ❌ Block everything else
+    console.error("Blocked CORS for origin:", origin);
+    return callback(new Error("CORS not allowed: " + origin), false);
   },
-  credentials: true
+  credentials: true,
 }));
 
-// MongoDB connection
+// ---------------------
+// MongoDB Connection
+// ---------------------
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -84,12 +92,18 @@ mongoose.connect(process.env.MONGO_URL, {
 .then(() => console.log("✅ Connected to MongoDB Atlas"))
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
+// ---------------------
 // Routes
+// ---------------------
 app.use("/api/listings", listingsRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/reviews", reviewsRouter);
 app.use("/api/bookings", bookingsRouter);
 
-app.get("/", (req, res) => res.json({ message: "API running..." }));
+// Root route (for testing)
+app.get("/", (req, res) => res.json({ message: "🌍 TravelMate API running..." }));
 
+// ---------------------
+// Start server
+// ---------------------
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

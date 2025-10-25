@@ -59,9 +59,9 @@ const Register = () => {
     e.preventDefault();
     try {
       await API.post("/auth/register", form);
-      await API.get("/auth/me"); // fetch user after register
-      navigate("/"); 
-      window.location.reload(); // refresh Navbar
+      await API.get("/auth/me"); // cookie check
+      navigate("/");
+      window.location.reload();
     } catch (err) {
       alert(err.response?.data?.error || "Registration failed");
     }
@@ -73,15 +73,35 @@ const Register = () => {
       <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
         <div className="mb-3">
           <label className="form-label">Name</label>
-          <input name="name" type="text" value={form.name} onChange={handleChange} className="form-control" />
+          <input
+            name="name"
+            type="text"
+            value={form.name}
+            onChange={handleChange}
+            className="form-control"
+          />
         </div>
         <div className="mb-3">
           <label className="form-label">Email</label>
-          <input name="email" type="email" value={form.email} onChange={handleChange} className="form-control" required />
+          <input
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
         </div>
         <div className="mb-3">
           <label className="form-label">Password</label>
-          <input name="password" type="password" value={form.password} onChange={handleChange} className="form-control" required />
+          <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
         </div>
         <button className="btn btn-success">Register</button>
       </form>

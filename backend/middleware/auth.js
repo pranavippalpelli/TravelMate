@@ -17,7 +17,7 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_in_prod";
 
 module.exports = (req, res, next) => {
-  const token = req.cookies?.authToken; // read cookie
+  const token = req.cookies?.authToken;
   if (!token) return res.status(401).json({ error: "No token provided" });
 
   try {

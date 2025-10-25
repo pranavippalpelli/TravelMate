@@ -87,13 +87,23 @@ router.post("/register", async (req, res) => {
     const existing = await User.findOne({ email });
     if (existing) return res.status(400).json({ error: "User already exists" });
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-    res.json({ message: "User registered successfully" });
+    // Automatically issue token after register (optional)
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({ message: "User registered & logged in", user: { name, email } });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -109,12 +119,14 @@ router.post("/login", async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(400).json({ error: "Invalid credentials" });
 
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: true,        // must be true on HTTPS
-      sameSite: "None",    // allow cross-domain cookies
+      secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

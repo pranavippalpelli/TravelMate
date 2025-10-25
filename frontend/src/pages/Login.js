@@ -55,10 +55,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post("/auth/login", form);
-      await API.get("/auth/me"); // fetch user after login
+      await API.post("/auth/login", form); // cookie will be set
+      await API.get("/auth/me"); // confirm login
       navigate("/");
-      window.location.reload(); // refresh Navbar
+      window.location.reload();
     } catch (err) {
       alert(err.response?.data?.error || "Login failed");
     }
@@ -70,11 +70,25 @@ const Login = () => {
       <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
         <div className="mb-3">
           <label className="form-label">Email</label>
-          <input name="email" type="email" value={form.email} onChange={handleChange} className="form-control" required />
+          <input
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
         </div>
         <div className="mb-3">
           <label className="form-label">Password</label>
-          <input name="password" type="password" value={form.password} onChange={handleChange} className="form-control" required />
+          <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
         </div>
         <button className="btn btn-success">Login</button>
       </form>
