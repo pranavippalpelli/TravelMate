@@ -53,17 +53,29 @@ const Login = () => {
   const handleChange = (e) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await API.post("/auth/login", form);
+  //     await API.get("/auth/me"); // confirms cookie works
+  //     navigate("/");
+  //     window.location.reload();
+  //   } catch (err) {
+  //     alert(err.response?.data?.error || "Login failed");
+  //   }
+  // };
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post("/auth/login", form);
-      await API.get("/auth/me"); // confirms cookie works
-      navigate("/");
-      window.location.reload();
-    } catch (err) {
-      alert(err.response?.data?.error || "Login failed");
-    }
-  };
+  e.preventDefault();
+  try {
+    const res = await API.post("/auth/login", form);
+    localStorage.setItem("token", res.data.token);
+    navigate("/");
+    window.location.reload();
+  } catch (err) {
+    alert(err.response?.data?.error || "Login failed");
+  }
+};
+
 
   return (
     <Layout>

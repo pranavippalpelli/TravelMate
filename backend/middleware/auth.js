@@ -1,7 +1,8 @@
+
 // const jwt = require("jsonwebtoken");
 // const JWT_SECRET = process.env.JWT_SECRET || "change_this_in_prod";
 
-// module.exports = function (req, res, next) {
+// module.exports = (req, res, next) => {
 //   const token = req.cookies.authToken;
 //   if (!token) return res.status(401).json({ error: "No token provided" });
 
@@ -13,11 +14,17 @@
 //     res.status(401).json({ error: "Token invalid or expired" });
 //   }
 // };
+
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_in_prod";
 
 module.exports = (req, res, next) => {
-  const token = req.cookies.authToken;
+  // ✅ Support token in header OR cookie (for backward compat)
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : req.cookies?.authToken;
+
   if (!token) return res.status(401).json({ error: "No token provided" });
 
   try {

@@ -57,17 +57,29 @@ const Register = () => {
   const handleChange = (e) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await API.post("/auth/register", form);
+  //     await API.get("/auth/me"); // verifies cookie
+  //     navigate("/");
+  //     window.location.reload();
+  //   } catch (err) {
+  //     alert(err.response?.data?.error || "Registration failed");
+  //   }
+  // };
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post("/auth/register", form);
-      await API.get("/auth/me"); // verifies cookie
-      navigate("/");
-      window.location.reload();
-    } catch (err) {
-      alert(err.response?.data?.error || "Registration failed");
-    }
-  };
+  e.preventDefault();
+  try {
+    const res = await API.post("/auth/register", form);
+    localStorage.setItem("token", res.data.token);
+    navigate("/");
+    window.location.reload();
+  } catch (err) {
+    alert(err.response?.data?.error || "Registration failed");
+  }
+};
+
 
   return (
     <Layout>

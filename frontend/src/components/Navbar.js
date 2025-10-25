@@ -107,15 +107,21 @@ const Navbar = () => {
     fetchUser();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await API.post("/auth/logout");
-      setUser(null);
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const handleLogout = async () => {
+  //   try {
+  //     await API.post("/auth/logout");
+  //     setUser(null);
+  //     navigate("/");
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  setUser(null);
+  navigate("/");
+};
+
 
   return (
     <nav className="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
