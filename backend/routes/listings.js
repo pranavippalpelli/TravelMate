@@ -1,9 +1,9 @@
 
 const express = require("express");
 const router = express.Router();
-const Listing = require("../models/listing");
-const Review = require("../models/review");
-const auth = require("../middleware/auth");
+const Listing = require("../models/listing.js");
+const Review = require("../models/review.js");
+const auth = require("../middleware/auth.js");
 
 // GET all listings
 router.get("/", async (req, res) => {
