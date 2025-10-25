@@ -61,6 +61,7 @@ const allowedOrigins = [
   process.env.CLIENT_URL,             // e.g., your current Vercel frontend
   "https://travel-mate-brudb8rao-pranavs-projects-987c93eb.vercel.app",
   "https://travel-mate-csb872ma3-pranavs-projects-987c93eb.vercel.app",
+  "https://travel-mate-rc4u7gfhq-pranavs-projects-987c93eb.vercel.app",
   "http://localhost:3000"            // for local development
 ];
 
