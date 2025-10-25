@@ -59,29 +59,40 @@ app.use(express.json());
 app.use(cookieParser());
 
 // ✅ Allow multiple frontend URLs dynamically
+// const allowedOrigins = [
+//   process.env.CLIENT_URL,     // main production frontend
+//   "http://localhost:3000"     // local dev
+// ];
+
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Allow Postman or curl (no origin)
+//     if (!origin) return callback(null, true);
+
+//     // ✅ Allow all vercel.app subdomains (any preview or prod build)
+//     if (origin.endsWith(".vercel.app")) return callback(null, true);
+
+//     // ✅ Allow whitelisted origins
+//     if (allowedOrigins.includes(origin)) return callback(null, true);
+
+//     // ❌ Block everything else
+//     console.error("Blocked CORS for origin:", origin);
+//     return callback(new Error("CORS not allowed: " + origin), false);
+//   },
+//   credentials: true,
+// }));
 const allowedOrigins = [
-  process.env.CLIENT_URL,     // main production frontend
-  "http://localhost:3000"     // local dev
+  process.env.CLIENT_URL,
+  "https://travel-mate-ivory.vercel.app/", // your deployed frontend
+  "http://localhost:3000",            // local dev
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow Postman or curl (no origin)
-    if (!origin) return callback(null, true);
-
-    // ✅ Allow all vercel.app subdomains (any preview or prod build)
-    if (origin.endsWith(".vercel.app")) return callback(null, true);
-
-    // ✅ Allow whitelisted origins
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-
-    // ❌ Block everything else
-    console.error("Blocked CORS for origin:", origin);
-    return callback(new Error("CORS not allowed: " + origin), false);
-  },
-  credentials: true,
-}));
-
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 // ---------------------
 // MongoDB Connection
 // ---------------------
