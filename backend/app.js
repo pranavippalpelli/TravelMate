@@ -59,6 +59,7 @@ app.use(cookieParser());
 // Allow multiple frontend URLs
 const allowedOrigins = [
   process.env.CLIENT_URL,             // e.g., your current Vercel frontend
+  "https://travel-mate-brudb8rao-pranavs-projects-987c93eb.vercel.app",
   "http://localhost:3000"            // for local development
 ];
 
