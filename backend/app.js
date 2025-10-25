@@ -38,7 +38,6 @@
 // app.get("/", (req, res) => res.json({ message: "API running..." }));
 
 // app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -57,16 +56,28 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 
-// Update CORS to allow your deployed frontend
+// Allow multiple frontend URLs
+const allowedOrigins = [
+  "https://travel-mate-6n6w9g0nb-pranavs-projects-987c93eb.vercel.app", // current frontend
+  "https://travel-mate-bhsf7yf52-pranavs-projects-987c93eb.vercel.app"  // old / staging frontend
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || "https://travel-mate-bhsf7yf52-pranavs-projects-987c93eb.vercel.app",
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // allow server-to-server / curl
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = "CORS policy: This origin is not allowed.";
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 })
 .then(() => console.log("✅ Connected to MongoDB Atlas"))
 .catch(err => console.error("❌ MongoDB connection error:", err));
