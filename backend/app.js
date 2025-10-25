@@ -58,16 +58,15 @@ app.use(cookieParser());
 
 // Allow multiple frontend URLs
 const allowedOrigins = [
-  "https://travel-mate-6n6w9g0nb-pranavs-projects-987c93eb.vercel.app", // current frontend
-  "https://travel-mate-bhsf7yf52-pranavs-projects-987c93eb.vercel.app"  // old / staging frontend
+  process.env.CLIENT_URL,             // e.g., your current Vercel frontend
+  "http://localhost:3000"            // for local development
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow server-to-server / curl
+    if (!origin) return callback(null, true); // allow Postman/curl
     if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = "CORS policy: This origin is not allowed.";
-      return callback(new Error(msg), false);
+      return callback(new Error("CORS not allowed"), false);
     }
     return callback(null, true);
   },
