@@ -56,10 +56,9 @@ const Login = () => {
     e.preventDefault();
     try {
       await API.post("/auth/login", form);
-      // fetch user immediately after login to update Navbar
-      await API.get("/auth/me");
-      navigate("/"); // redirect to home
-      window.location.reload(); // refresh Navbar to show correct menu
+      await API.get("/auth/me"); // fetch user after login
+      navigate("/");
+      window.location.reload(); // refresh Navbar
     } catch (err) {
       alert(err.response?.data?.error || "Login failed");
     }
@@ -71,28 +70,12 @@ const Login = () => {
       <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
         <div className="mb-3">
           <label className="form-label">Email</label>
-          <input
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            className="form-control"
-            required
-          />
+          <input name="email" type="email" value={form.email} onChange={handleChange} className="form-control" required />
         </div>
-
         <div className="mb-3">
           <label className="form-label">Password</label>
-          <input
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={handleChange}
-            className="form-control"
-            required
-          />
+          <input name="password" type="password" value={form.password} onChange={handleChange} className="form-control" required />
         </div>
-
         <button className="btn btn-success">Login</button>
       </form>
     </Layout>
