@@ -87,26 +87,27 @@ const ListingDetails = () => {
                   <button className="btn btn-secondary" disabled>Login required to proceed with booking.</button>
                 )}
               </div> */}
+              
               <div className="d-flex justify-content-evenly mt-3">
                 {isOwner ? (
                     <>
-      <Link to={`/listings/${id}/edit`} className="btn btn-dark">
-        Edit
-      </Link>
-      <button onClick={handleDeleteListing} className="btn btn-dark">
-        Delete
-      </button>
-    </>
-  ) : !user ? (
-    <button className="btn btn-secondary" disabled>
-      Login required to proceed with booking.
-    </button>
-  ) : (
-    <Link to={`/book/${listing._id}`} className="btn btn-success px-4">
-      Book Now
-    </Link>
-  )}
-</div>
+                      <Link to={`/listings/${id}/edit`} className="btn btn-dark">
+                          Edit
+                      </Link>
+                      <button onClick={handleDeleteListing} className="btn btn-dark">
+                          Delete
+                      </button>
+                    </>
+                  ) : !user ? (
+                      <button className="btn btn-secondary" disabled>
+                          Login required to proceed with booking.
+                      </button>
+                  ) : (
+                    <Link to={`/book/${listing._id}`} className="btn btn-success px-4">
+                      Book Now
+                    </Link>
+                  )}
+                </div>
 
             </div>
           </div>
@@ -139,10 +140,11 @@ const ListingDetails = () => {
             })}
 
             <br/>
-            <h5>Add Reviews</h5>
+            
             {/* Add Review Form */}
             {user && (
               <form onSubmit={handleAddReview} className="mt-3">
+                <h5>Add Reviews</h5>
                 <div className="mb-2">
                   <label className="form-label"><b>Rating</b></label>
                   <select className="form-select" value={newReview.rating} onChange={(e) => setNewReview(prev => ({ ...prev, rating: e.target.value }))}>

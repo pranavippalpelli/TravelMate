@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 // GET single listing with reviews
 router.get("/:id", async (req, res) => {
   try {
@@ -34,6 +35,7 @@ router.get("/:id", async (req, res) => {
 
     const reviews = await Review.find({ post: listing._id }).populate("author", "name email");
     res.json({ ...listing.toObject(), reviews });
+    // listing.toObject() is used to convert the Mongoose document into a plain JavaScript object so we can add reviews and send it as clean JSON.
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

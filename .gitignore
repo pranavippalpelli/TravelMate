@@ -46,6 +46,7 @@ backend/dist/
 frontend/.env
 backend/.env
 
+
 # Caches
 .cache/
 .parcel-cache/
