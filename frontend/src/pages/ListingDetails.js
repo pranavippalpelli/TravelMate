@@ -77,27 +77,48 @@ const ListingDetails = () => {
               </p>
               <p>Posted by: <b>@{listing.owner?.name || listing.owner?.email}</b></p>
 
-              <div className="d-flex justify-content-evenly mt-3">
+              {/* <div className="d-flex justify-content-evenly mt-3">
                 {isOwner ? (
                   <>
                     <Link to={`/listings/${id}/edit`} className="btn btn-dark">Edit</Link>
                     <button onClick={handleDeleteListing} className="btn btn-dark">Delete</button>
                   </>
                 ) : (
-                  <button className="btn btn-secondary" disabled>Read Only</button>
+                  <button className="btn btn-secondary" disabled>Login required to proceed with booking.</button>
                 )}
-              </div>
+              </div> */}
+              <div className="d-flex justify-content-evenly mt-3">
+                {isOwner ? (
+                    <>
+      <Link to={`/listings/${id}/edit`} className="btn btn-dark">
+        Edit
+      </Link>
+      <button onClick={handleDeleteListing} className="btn btn-dark">
+        Delete
+      </button>
+    </>
+  ) : !user ? (
+    <button className="btn btn-secondary" disabled>
+      Login required to proceed with booking.
+    </button>
+  ) : (
+    <Link to={`/book/${listing._id}`} className="btn btn-success px-4">
+      Book Now
+    </Link>
+  )}
+</div>
+
             </div>
           </div>
 
 
           
-            {/* book now page */}
+            {/* book now page
             {user && !isOwner && (
               <div className="text-center mt-3">
                   <Link to={`/book/${listing._id}`} className="btn btn-success px-4">Book Now</Link>
                 </div>
-            )}
+            )} */}
 
 
           {/* Reviews Section */}
@@ -117,8 +138,8 @@ const ListingDetails = () => {
               );
             })}
 
-            
-
+            <br/>
+            <h5>Add Reviews</h5>
             {/* Add Review Form */}
             {user && (
               <form onSubmit={handleAddReview} className="mt-3">
