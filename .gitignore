@@ -92,3 +92,4 @@ node_repl_history
 *.psd
 *.thumb
 *.sketch
+.vercel
