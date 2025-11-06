@@ -31,7 +31,8 @@ router.get("/:postId", async (req, res) => {
   try {
     const reviews = await Review.find({ post: req.params.postId })
       .populate("author", "name email")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 });     
+      // The .sort({ createdAt: -1 }) function sorts the reviews in descending order of creation time, showing the newest reviews first.
     res.json(reviews);
   } catch (err) {
     res.status(500).json({ error: err.message });

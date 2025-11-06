@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_in_prod";
 
 module.exports = (req, res, next) => {
-  // ✅ Support token in header OR cookie (for backward compat)
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
